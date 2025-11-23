@@ -14,7 +14,16 @@
       "Bash(tree:*)",
       "Bash(git remote add:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(powershell:*)",
+      "Bash(cat:*)",
+      "Bash(git pull:*)",
+      "Bash(Select-String \"error\" -Context 2)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git reset:*)",
+      "Bash(git clone:*)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []
