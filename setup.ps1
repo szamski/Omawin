@@ -114,22 +114,25 @@ if (-not $PSScriptRoot) {
         if ($LASTEXITCODE -eq 0) {
             Write-Host "Repository cloned successfully!" -ForegroundColor Green
             Write-Host "`nRestarting script from local copy..." -ForegroundColor Cyan
+            Write-Host "Press any key to continue..." -ForegroundColor Yellow
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
             # Build the command with all current parameters
-            $params = @{}
-            if ($SkipSoftware) { $params['SkipSoftware'] = $true }
-            if ($SkipSystemConfig) { $params['SkipSystemConfig'] = $true }
-            if ($SkipEnvironment) { $params['SkipEnvironment'] = $true }
-            if ($SkipDrivers) { $params['SkipDrivers'] = $true }
-            if ($SkipWSL) { $params['SkipWSL'] = $true }
-            if ($DryRun) { $params['DryRun'] = $true }
-            if ($NoMenu) { $params['NoMenu'] = $true }
+            $paramString = @()
+            if ($SkipSoftware) { $paramString += "-SkipSoftware" }
+            if ($SkipSystemConfig) { $paramString += "-SkipSystemConfig" }
+            if ($SkipEnvironment) { $paramString += "-SkipEnvironment" }
+            if ($SkipDrivers) { $paramString += "-SkipDrivers" }
+            if ($SkipWSL) { $paramString += "-SkipWSL" }
+            if ($DryRun) { $paramString += "-DryRun" }
+            if ($NoMenu) { $paramString += "-NoMenu" }
 
             $scriptPath = Join-Path $targetDir "setup.ps1"
+            $params = $paramString -join " "
 
-            # Re-execute the script from the cloned repository
-            Set-Location $targetDir
-            & $scriptPath @params
+            # Re-execute the script in a new PowerShell window with admin privileges
+            $arguments = "-NoExit -ExecutionPolicy Bypass -File `"$scriptPath`" $params"
+            Start-Process powershell.exe -ArgumentList $arguments -Verb RunAs -WorkingDirectory $targetDir
             exit
         }
         else {
