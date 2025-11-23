@@ -1,4 +1,5 @@
-#Requires -RunAsAdministrator
+# Note: Administrator privileges required for most operations
+# #Requires -RunAsAdministrator is commented to allow remote execution (irm | iex)
 
 <#
 .SYNOPSIS
@@ -239,16 +240,14 @@ function Invoke-ScriptModule {
 
 function Show-Menu {
     Clear-Host
-    Write-ColorOutput @"
-
-    ╔═══════════════════════════════════════════════════════════╗
-    ║                                                           ║
-    ║          Windows 11 Automated Setup Script               ║
-    ║          Opinionated & Optimized                         ║
-    ║                                                           ║
-    ╚═══════════════════════════════════════════════════════════╝
-
-"@ "Cyan"
+    Write-ColorOutput "" "Cyan"
+    Write-ColorOutput "    ╔═══════════════════════════════════════════════════════════╗" "Cyan"
+    Write-ColorOutput "    ║                                                           ║" "Cyan"
+    Write-ColorOutput "    ║          Windows 11 Automated Setup Script               ║" "Cyan"
+    Write-ColorOutput "    ║          Opinionated & Optimized                         ║" "Cyan"
+    Write-ColorOutput "    ║                                                           ║" "Cyan"
+    Write-ColorOutput "    ╚═══════════════════════════════════════════════════════════╝" "Cyan"
+    Write-ColorOutput "" "Cyan"
 
     Write-ColorOutput "Select Installation Mode:" "White"
     Write-ColorOutput ""
@@ -391,16 +390,14 @@ if (-not $NoMenu -and -not $PSBoundParameters.ContainsKey('SkipSoftware') -and
 # ========================================
 Clear-Host
 
-Write-ColorOutput @"
-
-    ╔═══════════════════════════════════════════════════════════╗
-    ║                                                           ║
-    ║          Windows 11 Automated Setup Script               ║
-    ║          Opinionated & Optimized                         ║
-    ║                                                           ║
-    ╚═══════════════════════════════════════════════════════════╝
-
-"@ "Cyan"
+Write-ColorOutput "" "Cyan"
+Write-ColorOutput "    ╔═══════════════════════════════════════════════════════════╗" "Cyan"
+Write-ColorOutput "    ║                                                           ║" "Cyan"
+Write-ColorOutput "    ║          Windows 11 Automated Setup Script               ║" "Cyan"
+Write-ColorOutput "    ║          Opinionated & Optimized                         ║" "Cyan"
+Write-ColorOutput "    ║                                                           ║" "Cyan"
+Write-ColorOutput "    ╚═══════════════════════════════════════════════════════════╝" "Cyan"
+Write-ColorOutput "" "Cyan"
 
 Write-ColorOutput "Starting setup at $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" "White"
 Write-ColorOutput "Log file: $LogFile" "Gray"
