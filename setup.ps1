@@ -108,8 +108,8 @@ if (-not $PSScriptRoot) {
             Remove-Item -Path $targetDir -Recurse -Force -ErrorAction SilentlyContinue
         }
 
-        # Clone the repository
-        git clone $repoUrl $targetDir 2>&1 | Out-Null
+        # Clone the repository (explicitly use main branch)
+        git clone --branch main $repoUrl $targetDir 2>&1 | Out-Null
 
         if ($LASTEXITCODE -eq 0) {
             Write-Host "Repository cloned successfully!" -ForegroundColor Green
