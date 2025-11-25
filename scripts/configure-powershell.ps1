@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -61,13 +61,13 @@ function New-PowerShellProfile {
     $profileDir = Split-Path -Parent $profilePath
     if (-not (Test-Path $profileDir)) {
         New-Item -Path $profileDir -ItemType Directory -Force | Out-Null
-        Write-ColorOutput "  âś“ Created profile directory" "Green"
+        Write-ColorOutput "  + Created profile directory" "Green"
     }
 
     # Backup existing profile
     if (Test-Path $profilePath) {
         Backup-Profile -ProfilePath $profilePath
-        Write-ColorOutput "  âś“ Backed up existing profile" "Green"
+        Write-ColorOutput "  + Backed up existing profile" "Green"
     }
 
     # Create new profile content
@@ -304,11 +304,11 @@ if (Get-Module -ListAvailable -Name posh-git) {
 
     try {
         Set-Content -Path $profilePath -Value $profileContent -Encoding UTF8 -Force
-        Write-ColorOutput "  âś“ PowerShell profile created successfully" "Green"
+        Write-ColorOutput "  + PowerShell profile created successfully" "Green"
         return $true
     }
     catch {
-        Write-ColorOutput "  âś— Failed to create profile: $_" "Red"
+        Write-ColorOutput "  X Failed to create profile: $_" "Red"
         return $false
     }
 }
@@ -325,18 +325,18 @@ function Install-PSReadLine {
         $module = Get-Module -ListAvailable -Name PSReadLine | Sort-Object Version -Descending | Select-Object -First 1
 
         if ($module) {
-            Write-ColorOutput "  â—‹ PSReadLine is already installed (version $($module.Version))" "Gray"
+            Write-ColorOutput "  o PSReadLine is already installed (version $($module.Version))" "Gray"
             return $true
         }
         else {
             Write-ColorOutput "  Installing PSReadLine module..." "Yellow"
             Install-Module -Name PSReadLine -Force -SkipPublisherCheck -AllowClobber
-            Write-ColorOutput "  âś“ PSReadLine installed successfully" "Green"
+            Write-ColorOutput "  + PSReadLine installed successfully" "Green"
             return $true
         }
     }
     catch {
-        Write-ColorOutput "  âś— Failed to install PSReadLine: $_" "Red"
+        Write-ColorOutput "  X Failed to install PSReadLine: $_" "Red"
         return $false
     }
 }
@@ -359,7 +359,7 @@ function New-StarshipConfig {
 
     # Only create if it doesn't exist (don't overwrite user customizations)
     if (Test-Path $starshipConfigPath) {
-        Write-ColorOutput "  â—‹ Starship config already exists (keeping user configuration)" "Gray"
+        Write-ColorOutput "  o Starship config already exists (keeping user configuration)" "Gray"
         return $true
     }
 
@@ -375,7 +375,7 @@ format = """
 
 [character]
 success_symbol = "[âžś](bold green)"
-error_symbol = "[âś—](bold red)"
+error_symbol = "[X](bold red)"
 
 [directory]
 truncation_length = 3
@@ -426,11 +426,11 @@ style = "bold cyan"
 
     try {
         Set-Content -Path $starshipConfigPath -Value $starshipConfig -Encoding UTF8 -Force
-        Write-ColorOutput "  âś“ Starship config created" "Green"
+        Write-ColorOutput "  + Starship config created" "Green"
         return $true
     }
     catch {
-        Write-ColorOutput "  âś— Failed to create Starship config: $_" "Red"
+        Write-ColorOutput "  X Failed to create Starship config: $_" "Red"
         return $false
     }
 }
@@ -450,11 +450,11 @@ Write-ColorOutput "`n[Step 1: Verify Starship]" "Cyan"
 $totalSteps++
 
 if (Test-StarshipInstalled) {
-    Write-ColorOutput "  âś“ Starship is installed" "Green"
+    Write-ColorOutput "  + Starship is installed" "Green"
     $successCount++
 }
 else {
-    Write-ColorOutput "  âś— Starship is not installed!" "Red"
+    Write-ColorOutput "  X Starship is not installed!" "Red"
     Write-ColorOutput "  Please install it first: winget install Starship.Starship" "Yellow"
     Write-ColorOutput "  Continuing with profile setup anyway..." "Gray"
 }

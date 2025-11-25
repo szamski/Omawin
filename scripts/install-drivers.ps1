@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -51,7 +51,7 @@ function Install-DriverPackage {
         # Check if already installed
         $installed = winget list --id $PackageId --exact 2>$null
         if ($LASTEXITCODE -eq 0 -and $installed -match $PackageId) {
-            Write-ColorOutput "  âś“ $PackageName driver is already installed" "Gray"
+            Write-ColorOutput "  + $PackageName driver is already installed" "Gray"
             return $true
         }
 
@@ -59,16 +59,16 @@ function Install-DriverPackage {
         winget install --id $PackageId --exact --silent --accept-source-agreements --accept-package-agreements
 
         if ($LASTEXITCODE -eq 0) {
-            Write-ColorOutput "  âś“ $PackageName driver installed successfully" "Green"
+            Write-ColorOutput "  + $PackageName driver installed successfully" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  âś— Failed to install $PackageName driver (exit code: $LASTEXITCODE)" "Yellow"
+            Write-ColorOutput "  X Failed to install $PackageName driver (exit code: $LASTEXITCODE)" "Yellow"
             return $false
         }
     }
     catch {
-        Write-ColorOutput "  âś— Error installing $PackageName driver: $_" "Red"
+        Write-ColorOutput "  X Error installing $PackageName driver: $_" "Red"
         return $false
     }
 }
@@ -208,7 +208,7 @@ function Install-ChipsetDrivers {
         "Intel" {
             Write-ColorOutput "  â„ą Intel chipset drivers available at:" "Gray"
             Write-ColorOutput "    https://www.intel.com/content/www/us/en/download-center/home.html" "Cyan"
-            Write-ColorOutput "  Or install Intel Driver & Support Assistant via winget:" "Gray"
+            Write-ColorOutput "  Or install Intel Driver and Support Assistant via winget:" "Gray"
             Install-DriverPackage -PackageId "Intel.IntelDriverAndSupportAssistant" -PackageName "Intel DSA" -DeviceType "Intel System"
         }
         "AMD" {
@@ -258,7 +258,7 @@ function Invoke-WindowsUpdate {
             Import-Module PSWindowsUpdate
             Write-ColorOutput "  Starting Windows Update scan for drivers..." "Cyan"
             Get-WindowsUpdate -MicrosoftUpdate -Install -UpdateType Driver -AcceptAll -AutoReboot:$false -Verbose
-            Write-ColorOutput "  âś“ Windows Update driver scan complete" "Green"
+            Write-ColorOutput "  + Windows Update driver scan complete" "Green"
         }
         else {
             Write-ColorOutput "  âš  PSWindowsUpdate module not available" "Yellow"
@@ -286,7 +286,7 @@ if (-not (Test-Path $HardwareInfoPath)) {
 # Load hardware information
 try {
     $hardwareInfo = Get-Content $HardwareInfoPath -Raw | ConvertFrom-Json
-    Write-ColorOutput "âś“ Hardware information loaded successfully" "Green"
+    Write-ColorOutput "+ Hardware information loaded successfully" "Green"
 }
 catch {
     Write-ColorOutput "Failed to load hardware information: $_" "Red"

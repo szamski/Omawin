@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -42,11 +42,11 @@ function Set-RegistryValue {
 
         # Set the registry value
         Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -ErrorAction Stop
-        Write-ColorOutput "  âś“ $Description" "Green"
+        Write-ColorOutput "  + $Description" "Green"
         return $true
     }
     catch {
-        Write-ColorOutput "  âś— Failed to set $Description : $_" "Red"
+        Write-ColorOutput "  X Failed to set $Description : $_" "Red"
         return $false
     }
 }
@@ -67,16 +67,16 @@ function Disable-ScheduledTask {
         $task = Get-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -ErrorAction SilentlyContinue
         if ($task) {
             Disable-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -ErrorAction Stop | Out-Null
-            Write-ColorOutput "  âś“ $Description" "Green"
+            Write-ColorOutput "  + $Description" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  â—‹ Task not found (already removed or not present): $TaskName" "Gray"
+            Write-ColorOutput "  o Task not found (already removed or not present): $TaskName" "Gray"
             return $true
         }
     }
     catch {
-        Write-ColorOutput "  âś— Failed to disable task $TaskName : $_" "Red"
+        Write-ColorOutput "  X Failed to disable task $TaskName : $_" "Red"
         return $false
     }
 }
@@ -97,32 +97,32 @@ function Stop-TelemetryService {
         if ($service) {
             Stop-Service -Name $ServiceName -Force -ErrorAction SilentlyContinue
             Set-Service -Name $ServiceName -StartupType Disabled -ErrorAction Stop
-            Write-ColorOutput "  âś“ $Description" "Green"
+            Write-ColorOutput "  + $Description" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  â—‹ Service not found: $ServiceName" "Gray"
+            Write-ColorOutput "  o Service not found: $ServiceName" "Gray"
             return $true
         }
     }
     catch {
-        Write-ColorOutput "  âś— Failed to disable service $ServiceName : $_" "Red"
+        Write-ColorOutput "  X Failed to disable service $ServiceName : $_" "Red"
         return $false
     }
 }
 
 # Main execution
 Write-ColorOutput "========================================" "Magenta"
-Write-ColorOutput "  Disable Telemetry & Privacy Tracking" "Magenta"
+Write-ColorOutput "  Disable Telemetry and Privacy Tracking" "Magenta"
 Write-ColorOutput "========================================" "Magenta"
 
 $successCount = 0
 $totalSettings = 0
 
 # ========================================
-# Disable Telemetry & Diagnostic Data
+# Disable Telemetry and Diagnostic Data
 # ========================================
-Write-ColorOutput "`n[Telemetry & Diagnostic Data]" "Cyan"
+Write-ColorOutput "`n[Telemetry and Diagnostic Data]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" `
@@ -155,7 +155,7 @@ if (Set-RegistryValue -Path "HKCU:\Software\Microsoft\Siuf\Rules" `
 # ========================================
 # Disable Advertising ID & Tracking
 # ========================================
-Write-ColorOutput "`n[Advertising & Activity Tracking]" "Cyan"
+Write-ColorOutput "`n[Advertising and Activity Tracking]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" `
@@ -202,7 +202,7 @@ if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" `
 # ========================================
 # Disable Cortana & Web Search
 # ========================================
-Write-ColorOutput "`n[Cortana & Search Privacy]" "Cyan"
+Write-ColorOutput "`n[Cortana and Search Privacy]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" `
@@ -268,7 +268,7 @@ if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationA
 # ========================================
 # Disable Cloud Content & Consumer Features
 # ========================================
-Write-ColorOutput "`n[Cloud Content & Suggestions]" "Cyan"
+Write-ColorOutput "`n[Cloud Content and Suggestions]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" `
@@ -341,7 +341,7 @@ if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows E
 # ========================================
 # Disable App Diagnostics
 # ========================================
-Write-ColorOutput "`n[App Diagnostics & Privacy]" "Cyan"
+Write-ColorOutput "`n[App Diagnostics and Privacy]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Privacy" `
@@ -407,7 +407,7 @@ if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Del
 # ========================================
 # Disable Inventory Collector
 # ========================================
-Write-ColorOutput "`n[Inventory & Compatibility]" "Cyan"
+Write-ColorOutput "`n[Inventory and Compatibility]" "Cyan"
 
 $totalSettings++
 if (Set-RegistryValue -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" `

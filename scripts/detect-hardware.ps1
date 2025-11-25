@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -50,13 +50,13 @@ function Get-GPUInfo {
             }
 
             $gpuList += $gpuInfo
-            Write-ColorOutput "  âś“ Found: $($gpu.Name) [$vendor]" "Green"
+            Write-ColorOutput "  + Found: $($gpu.Name) [$vendor]" "Green"
         }
 
         return $gpuList
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting GPU: $_" "Red"
+        Write-ColorOutput "  X Error detecting GPU: $_" "Red"
         return @()
     }
 }
@@ -82,13 +82,13 @@ function Get-CPUInfo {
             LogicalProcessors = $cpu.NumberOfLogicalProcessors
         }
 
-        Write-ColorOutput "  âś“ Found: $($cpu.Name) [$vendor]" "Green"
+        Write-ColorOutput "  + Found: $($cpu.Name) [$vendor]" "Green"
         Write-ColorOutput "    Cores: $($cpu.NumberOfCores) | Threads: $($cpu.NumberOfLogicalProcessors)" "Gray"
 
         return $cpuInfo
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting CPU: $_" "Red"
+        Write-ColorOutput "  X Error detecting CPU: $_" "Red"
         return $null
     }
 }
@@ -126,13 +126,13 @@ function Get-AudioDevices {
             }
 
             $audioList += $audioInfo
-            Write-ColorOutput "  âś“ Found: $($device.Name) [$vendor]" "Green"
+            Write-ColorOutput "  + Found: $($device.Name) [$vendor]" "Green"
         }
 
         return $audioList
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting audio devices: $_" "Red"
+        Write-ColorOutput "  X Error detecting audio devices: $_" "Red"
         return @()
     }
 }
@@ -180,13 +180,13 @@ function Get-NetworkAdapters {
             }
 
             $adapterList += $adapterInfo
-            Write-ColorOutput "  âś“ Found: $($adapter.InterfaceDescription) [$type - $vendor]" "Green"
+            Write-ColorOutput "  + Found: $($adapter.InterfaceDescription) [$type - $vendor]" "Green"
         }
 
         return $adapterList
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting network adapters: $_" "Red"
+        Write-ColorOutput "  X Error detecting network adapters: $_" "Red"
         return @()
     }
 }
@@ -205,15 +205,15 @@ function Get-SystemInfo {
             TotalMemoryGB = [math]::Round($cs.TotalPhysicalMemory / 1GB, 2)
         }
 
-        Write-ColorOutput "  âś“ Manufacturer: $($cs.Manufacturer)" "Green"
-        Write-ColorOutput "  âś“ Model: $($cs.Model)" "Green"
-        Write-ColorOutput "  âś“ BIOS: $($bios.SMBIOSBIOSVersion)" "Green"
-        Write-ColorOutput "  âś“ RAM: $($systemInfo.TotalMemoryGB) GB" "Green"
+        Write-ColorOutput "  + Manufacturer: $($cs.Manufacturer)" "Green"
+        Write-ColorOutput "  + Model: $($cs.Model)" "Green"
+        Write-ColorOutput "  + BIOS: $($bios.SMBIOSBIOSVersion)" "Green"
+        Write-ColorOutput "  + RAM: $($systemInfo.TotalMemoryGB) GB" "Green"
 
         return $systemInfo
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting system info: $_" "Red"
+        Write-ColorOutput "  X Error detecting system info: $_" "Red"
         return $null
     }
 }
@@ -234,13 +234,13 @@ function Get-StorageDevices {
             }
 
             $diskList += $diskInfo
-            Write-ColorOutput "  âś“ Found: $($disk.FriendlyName) [$($disk.MediaType) - $($diskInfo.SizeGB) GB]" "Green"
+            Write-ColorOutput "  + Found: $($disk.FriendlyName) [$($disk.MediaType) - $($diskInfo.SizeGB) GB]" "Green"
         }
 
         return $diskList
     }
     catch {
-        Write-ColorOutput "  âś— Error detecting storage devices: $_" "Red"
+        Write-ColorOutput "  X Error detecting storage devices: $_" "Red"
         return @()
     }
 }
@@ -264,10 +264,10 @@ $hardwareInfo = @{
 $exportPath = Join-Path $PSScriptRoot "..\hardware-info.json"
 try {
     $hardwareInfo | ConvertTo-Json -Depth 10 | Out-File -FilePath $exportPath -Encoding UTF8
-    Write-ColorOutput "`nâś“ Hardware information exported to: $exportPath" "Green"
+    Write-ColorOutput "`n+ Hardware information exported to: $exportPath" "Green"
 }
 catch {
-    Write-ColorOutput "`nâś— Failed to export hardware info: $_" "Red"
+    Write-ColorOutput "`nX Failed to export hardware info: $_" "Red"
 }
 
 # Summary

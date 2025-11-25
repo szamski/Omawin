@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -71,7 +71,7 @@ function Install-Package {
         # Check if package is already installed
         $installed = winget list --id $PackageId --exact 2>$null
         if ($LASTEXITCODE -eq 0 -and $installed -match $PackageId) {
-            Write-ColorOutput "  âś“ $PackageName is already installed" "Gray"
+            Write-ColorOutput "  + $PackageName is already installed" "Gray"
             return $true
         }
 
@@ -79,16 +79,16 @@ function Install-Package {
         winget install --id $PackageId --exact --silent --accept-source-agreements --accept-package-agreements
 
         if ($LASTEXITCODE -eq 0) {
-            Write-ColorOutput "  âś“ $PackageName installed successfully" "Green"
+            Write-ColorOutput "  + $PackageName installed successfully" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  âś— Failed to install $PackageName (exit code: $LASTEXITCODE)" "Red"
+            Write-ColorOutput "  X Failed to install $PackageName (exit code: $LASTEXITCODE)" "Red"
             return $false
         }
     }
     catch {
-        Write-ColorOutput "  âś— Error installing $PackageName: $_" "Red"
+        Write-ColorOutput "  X Error installing $PackageName: $_" "Red"
         return $false
     }
 }

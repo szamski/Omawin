@@ -1,4 +1,4 @@
-﻿# Note: Administrator privileges required for most operations
+# Note: Administrator privileges required for most operations
 # #Requires -RunAsAdministrator is commented to allow remote execution (irm | iex)
 
 <#
@@ -306,7 +306,7 @@ function Show-CustomMenu {
         Write-ColorOutput "  3. [$(if ($options.Environment) { 'X' } else { ' ' })] Environment Variables" $(if ($options.Environment) { "Green" } else { "Gray" })
         Write-ColorOutput "  4. [$(if ($options.Drivers) { 'X' } else { ' ' })] Hardware Drivers" $(if ($options.Drivers) { "Green" } else { "Gray" })
         Write-ColorOutput "  5. [$(if ($options.WSL) { 'X' } else { ' ' })] Windows Subsystem for Linux (WSL)" $(if ($options.WSL) { "Green" } else { "Gray" })
-        Write-ColorOutput "  6. [$(if ($options.Telemetry) { 'X' } else { ' ' })] Disable Telemetry & Privacy Tracking" $(if ($options.Telemetry) { "Green" } else { "Gray" })
+        Write-ColorOutput "  6. [$(if ($options.Telemetry) { 'X' } else { ' ' })] Disable Telemetry and Privacy Tracking" $(if ($options.Telemetry) { "Green" } else { "Gray" })
         Write-ColorOutput "  7. [$(if ($options.PowerShell) { 'X' } else { ' ' })] PowerShell Profile (Starship)" $(if ($options.PowerShell) { "Green" } else { "Gray" })
         Write-ColorOutput ""
         Write-ColorOutput "  D. [$(if ($options.DryRun) { 'X' } else { ' ' })] Dry-Run Mode (Preview Only)" $(if ($options.DryRun) { "Cyan" } else { "Gray" })
@@ -522,7 +522,7 @@ if (-not $SkipSystemConfig) {
     }
 }
 
-# Module 3: Disable Telemetry & Privacy Tracking
+# Module 3: Disable Telemetry and Privacy Tracking
 if (-not $SkipTelemetry) {
     $executedModules++
     $modulePath = Join-Path $ScriptRoot "scripts\disable-telemetry.ps1"

@@ -1,4 +1,4 @@
-﻿# Note: This script should be run as Administrator for full functionality
+# Note: This script should be run as Administrator for full functionality
 
 <#
 .SYNOPSIS
@@ -52,16 +52,16 @@ function Enable-WSLFeature {
         $result = Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart -ErrorAction Stop
 
         if ($result.RestartNeeded) {
-            Write-ColorOutput "  âś“ WSL feature enabled (restart required)" "Yellow"
+            Write-ColorOutput "  + WSL feature enabled (restart required)" "Yellow"
             return $true
         }
         else {
-            Write-ColorOutput "  âś“ WSL feature enabled successfully" "Green"
+            Write-ColorOutput "  + WSL feature enabled successfully" "Green"
             return $true
         }
     }
     catch {
-        Write-ColorOutput "  âś— Failed to enable WSL: $_" "Red"
+        Write-ColorOutput "  X Failed to enable WSL: $_" "Red"
         return $false
     }
 }
@@ -78,16 +78,16 @@ function Enable-VirtualMachinePlatformFeature {
         $result = Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart -ErrorAction Stop
 
         if ($result.RestartNeeded) {
-            Write-ColorOutput "  âś“ Virtual Machine Platform enabled (restart required)" "Yellow"
+            Write-ColorOutput "  + Virtual Machine Platform enabled (restart required)" "Yellow"
             return $true
         }
         else {
-            Write-ColorOutput "  âś“ Virtual Machine Platform enabled successfully" "Green"
+            Write-ColorOutput "  + Virtual Machine Platform enabled successfully" "Green"
             return $true
         }
     }
     catch {
-        Write-ColorOutput "  âś— Failed to enable Virtual Machine Platform: $_" "Red"
+        Write-ColorOutput "  X Failed to enable Virtual Machine Platform: $_" "Red"
         return $false
     }
 }
@@ -99,16 +99,16 @@ function Set-WSL2AsDefault {
         wsl --set-default-version 2 2>&1 | Out-Null
 
         if ($LASTEXITCODE -eq 0) {
-            Write-ColorOutput "  âś“ WSL 2 set as default version" "Green"
+            Write-ColorOutput "  + WSL 2 set as default version" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  âś— Failed to set WSL 2 as default (exit code: $LASTEXITCODE)" "Red"
+            Write-ColorOutput "  X Failed to set WSL 2 as default (exit code: $LASTEXITCODE)" "Red"
             return $false
         }
     }
     catch {
-        Write-ColorOutput "  âś— Error setting WSL 2 as default: $_" "Red"
+        Write-ColorOutput "  X Error setting WSL 2 as default: $_" "Red"
         return $false
     }
 }
@@ -124,7 +124,7 @@ function Install-WSLDistribution {
         # Check if distribution is already installed
         $installed = wsl --list 2>&1
         if ($installed -match $Distribution) {
-            Write-ColorOutput "  â—‹ $Distribution is already installed" "Gray"
+            Write-ColorOutput "  o $Distribution is already installed" "Gray"
             return $true
         }
 
@@ -132,17 +132,17 @@ function Install-WSLDistribution {
         wsl --install -d $Distribution
 
         if ($LASTEXITCODE -eq 0) {
-            Write-ColorOutput "  âś“ $Distribution installed successfully" "Green"
+            Write-ColorOutput "  + $Distribution installed successfully" "Green"
             Write-ColorOutput "  Note: You'll need to complete the initial setup when you first launch Ubuntu" "Yellow"
             return $true
         }
         else {
-            Write-ColorOutput "  âś— Failed to install $Distribution (exit code: $LASTEXITCODE)" "Red"
+            Write-ColorOutput "  X Failed to install $Distribution (exit code: $LASTEXITCODE)" "Red"
             return $false
         }
     }
     catch {
-        Write-ColorOutput "  âś— Error installing $Distribution : $_" "Red"
+        Write-ColorOutput "  X Error installing $Distribution : $_" "Red"
         return $false
     }
 }
@@ -163,7 +163,7 @@ Write-ColorOutput "`n[Step 1: Windows Subsystem for Linux]" "Cyan"
 $totalSteps++
 
 if (Test-WSLEnabled) {
-    Write-ColorOutput "  â—‹ WSL is already enabled" "Gray"
+    Write-ColorOutput "  o WSL is already enabled" "Gray"
     $successCount++
 }
 else {
@@ -180,7 +180,7 @@ Write-ColorOutput "`n[Step 2: Virtual Machine Platform]" "Cyan"
 $totalSteps++
 
 if (Test-VirtualMachinePlatformEnabled) {
-    Write-ColorOutput "  â—‹ Virtual Machine Platform is already enabled" "Gray"
+    Write-ColorOutput "  o Virtual Machine Platform is already enabled" "Gray"
     $successCount++
 }
 else {
