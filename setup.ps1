@@ -64,6 +64,7 @@ param(
     [switch]$SkipWSL,
     [switch]$SkipTelemetry,
     [switch]$SkipPowerShell,
+    [switch]$SkipGitConfig,
     [switch]$DryRun,
     [switch]$NoMenu
 )
@@ -295,6 +296,7 @@ function Show-CustomMenu {
         WSL = $true
         Telemetry = $true
         PowerShell = $true
+        GitConfig = $true
         DryRun = $false
     }
 
@@ -308,6 +310,7 @@ function Show-CustomMenu {
         Write-ColorOutput "  5. [$(if ($options.WSL) { 'X' } else { ' ' })] Windows Subsystem for Linux (WSL)" $(if ($options.WSL) { "Green" } else { "Gray" })
         Write-ColorOutput "  6. [$(if ($options.Telemetry) { 'X' } else { ' ' })] Disable Telemetry and Privacy Tracking" $(if ($options.Telemetry) { "Green" } else { "Gray" })
         Write-ColorOutput "  7. [$(if ($options.PowerShell) { 'X' } else { ' ' })] PowerShell Profile (Starship)" $(if ($options.PowerShell) { "Green" } else { "Gray" })
+        Write-ColorOutput "  8. [$(if ($options.GitConfig) { 'X' } else { ' ' })] Git and GitHub Configuration" $(if ($options.GitConfig) { "Green" } else { "Gray" })
         Write-ColorOutput ""
         Write-ColorOutput "  D. [$(if ($options.DryRun) { 'X' } else { ' ' })] Dry-Run Mode (Preview Only)" $(if ($options.DryRun) { "Cyan" } else { "Gray" })
         Write-ColorOutput ""
@@ -315,7 +318,7 @@ function Show-CustomMenu {
         Write-ColorOutput "  B. Back to Main Menu" "Yellow"
         Write-ColorOutput ""
 
-        $choice = Read-Host "Toggle option (1-7, D) or Start (S) / Back (B)"
+        $choice = Read-Host "Toggle option (1-8, D) or Start (S) / Back (B)"
 
         switch ($choice.ToUpper()) {
             '1' { $options.Software = -not $options.Software }
@@ -325,6 +328,7 @@ function Show-CustomMenu {
             '5' { $options.WSL = -not $options.WSL }
             '6' { $options.Telemetry = -not $options.Telemetry }
             '7' { $options.PowerShell = -not $options.PowerShell }
+            '8' { $options.GitConfig = -not $options.GitConfig }
             'D' { $options.DryRun = -not $options.DryRun }
             'S' { return $options }
             'B' { return $null }
@@ -381,6 +385,7 @@ if (-not $NoMenu -and -not $PSBoundParameters.ContainsKey('SkipSoftware') -and
                 $SkipWSL = -not $customOptions.WSL
                 $SkipTelemetry = -not $customOptions.Telemetry
                 $SkipPowerShell = -not $customOptions.PowerShell
+                $SkipGitConfig = -not $customOptions.GitConfig
                 if ($customOptions.DryRun) {
                     $DryRun = $true
                     $env:DRYRUN_MODE = "true"
@@ -486,6 +491,7 @@ Write-ColorOutput "  Driver Installation: $(if ($SkipDrivers) { 'SKIPPED' } else
 Write-ColorOutput "  WSL Installation: $(if ($SkipWSL) { 'SKIPPED' } else { 'ENABLED' })" $(if ($SkipWSL) { "Yellow" } else { "Green" })
 Write-ColorOutput "  Disable Telemetry: $(if ($SkipTelemetry) { 'SKIPPED' } else { 'ENABLED' })" $(if ($SkipTelemetry) { "Yellow" } else { "Green" })
 Write-ColorOutput "  PowerShell Config: $(if ($SkipPowerShell) { 'SKIPPED' } else { 'ENABLED' })" $(if ($SkipPowerShell) { "Yellow" } else { "Green" })
+Write-ColorOutput "  Git and GitHub Config: $(if ($SkipGitConfig) { 'SKIPPED' } else { 'ENABLED' })" $(if ($SkipGitConfig) { "Yellow" } else { "Green" })
 
 Write-ColorOutput "`nPress Ctrl+C to cancel, or" "Yellow"
 Read-Host "Press Enter to continue"
@@ -610,6 +616,18 @@ if (-not $SkipWSL) {
     }
     else {
         $failedModules += "WSL Installation"
+    }
+}
+
+# Module 10: Git and GitHub Configuration
+if (-not $SkipGitConfig) {
+    $executedModules++
+    $modulePath = Join-Path $ScriptRoot "scripts\configure-git.ps1"
+    if (Invoke-ScriptModule -ModulePath $modulePath -ModuleName "Git and GitHub Config" -Description "STEP 10: Configuring Git and GitHub") {
+        $successfulModules++
+    }
+    else {
+        $failedModules += "Git and GitHub Config"
     }
 }
 
