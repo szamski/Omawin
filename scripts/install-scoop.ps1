@@ -163,6 +163,16 @@ if (Install-ScoopPackage -PackageName "make") {
 }
 
 # ========================================
+# Step 5: Install grep
+# ========================================
+Write-ColorOutput "`n[Step 4: make Installation]" "Cyan"
+$totalSteps++
+
+if (Install-ScoopPackage -PackageName "grep") {
+    $successCount++
+}
+
+# ========================================
 # Summary
 # ========================================
 Write-ColorOutput "`n========================================" "Magenta"
