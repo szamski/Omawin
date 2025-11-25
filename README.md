@@ -141,6 +141,8 @@ The script actually looks at your hardware and installs the right stuff:
 
 ## 🎯 Usage Modes
 
+![Setup Script Screenshot](assets/setup.png)
+
 ### Interactive Menu (Default)
 Just run `.\setup.ps1` and pick what you want:
 - **Full Install** - everything (recommended for new machines)
