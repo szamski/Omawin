@@ -1,4 +1,4 @@
-# Opinionated Windows 11 Setup
+# Opinionated Windows 11 Setup by Szamski
 
 ![Fastfetch Screenshot](assets/fastfetch.png)
 
