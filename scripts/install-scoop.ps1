@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Installs Scoop package manager and essential development tools.
 
@@ -45,16 +45,16 @@ function Install-Scoop {
         Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
         if (Test-ScoopInstalled) {
-            Write-ColorOutput "  ✓ Scoop installed successfully" "Green"
+            Write-ColorOutput "  + Scoop installed successfully" "Green"
             return $true
         }
         else {
-            Write-ColorOutput "  ✗ Scoop installation failed" "Red"
+            Write-ColorOutput "  X Scoop installation failed" "Red"
             return $false
         }
     }
     catch {
-        Write-ColorOutput "  ✗ Failed to install Scoop: $_" "Red"
+        Write-ColorOutput "  X Failed to install Scoop: $($_.Exception.Message)" "Red"
         return $false
     }
 }
@@ -103,7 +103,7 @@ function Install-ScoopPackage {
         }
     }
     catch {
-        Write-ColorOutput "  ✗ Error installing $PackageName : $_" "Red"
+        Write-ColorOutput "  X Error installing ${PackageName}: $($_.Exception.Message)" "Red"
         return $false
     }
 }
@@ -200,3 +200,4 @@ Write-ColorOutput "  scoop install <package>      # Install a package" "Gray"
 Write-ColorOutput "  scoop list                   # List installed packages" "Gray"
 Write-ColorOutput "  scoop update                 # Update Scoop itself" "Gray"
 Write-ColorOutput "  scoop update *               # Update all packages" "Gray"
+
