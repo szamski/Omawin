@@ -40,3 +40,7 @@ $RECYCLE.BIN/
 *.user
 *.userosscache
 *.sln.docstates
+
+# AI
+
+/.claude
